@@ -1,5 +1,6 @@
 #include "../inc/Menu.h"
 
+
 //Processes Main Menu
 void MainMenu()
 {
@@ -19,7 +20,7 @@ void MainMenu()
 
         echo_play_bgm(BGM_02);              //Play HockeyFever (Loop)
         InitMenu(1,0,0,4,PTRUE);            //Init menu to 3 items
-        JOY_setEventHandler( &BtnHMenu );   //Set appropriate button handler
+        JOY_setEventHandler(&BtnHMenu);   //Set appropriate button handler
 
         //While nothing is selected
         while (SItem==0)
@@ -148,8 +149,10 @@ void ChrselMenu()
     SYS_disableInts();
     SPR_init(16);   //Sprite tile cache of 16 tiles
     SYS_enableInts();
+
+    // !@ Screws up
+    SPR_initSprite(&sprites[0], &SPR_Arrow, 271, 266, TILE_ATTR(MISCPAL,TRUE,FALSE,FALSE));      //Init the Arrow Sprite
     VDP_setPalette(MISCPAL, SPR_Arrow.palette->data);                                              //Init pal OBJPAL to Arrow pal
-    SPR_initSprite(&sprites[0], &SPR_Arrow, -128, -128, TILE_ATTR(MISCPAL,TRUE,FALSE,FALSE));      //Init the Arrow Sprite
 
     echo_play_sfx(SFX_13);              //"How many players are going to play today?"
     JOY_setEventHandler( &BtnHMenu );   //Setup joy handler to HMenu type
@@ -172,7 +175,7 @@ void ChrselMenu()
 
     VDP_resetSprites();
 
-    //Toggle amt of players as appropriately
+    //@Toggle amt of players as appropriately
     if (SItem==1)
     {
         Opts[0]=_FALSE;
@@ -182,7 +185,7 @@ void ChrselMenu()
         Opts[0]=PTRUE;
     }
 
-    SPR_setPosition(&sprites[0],-128, -128);    //Set new position
+    SPR_setPosition(&sprites[0],-128, -128);    //@Kill sprite
     SPR_update(sprites, 1);                     //Update it
     SPR_end;                                    //Kill sprite engine
 
@@ -457,7 +460,7 @@ void BtnOptions(u16 joy, u16 changed, u16 state)
             //Draw difficulty text and selected difficulty
             VDP_drawText("Difficulty:",6,11);
             VDP_drawText("      ",20,11);
-            switch (Opts[1])
+            switch(Opts[1])
             {
                 case 0:
                     VDP_drawText("Easy",20,11);
